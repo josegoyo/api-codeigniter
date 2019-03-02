@@ -8,16 +8,16 @@ require(APPPATH . '/libraries/Format.php');
 
 class Api extends REST_Controller
 {
-  public function __construct() 
-  {
+	public function __construct() 
+	{
 		parent::__construct();
-    $this->load->model('car_model');
-    $this->load->model('validator_model');
-  }  
+		$this->load->model('car_model');
+		$this->load->model('validator_model');
+	}  
 
 	public function car_get()
 	{
-	  $this->response($this->car_model->read()); 
+		$this->response($this->car_model->read()); 
 	}
 
 	public function car_post()
@@ -29,7 +29,8 @@ class Api extends REST_Controller
 
 		$r = array();
 
-		if($this->validator_model->validate_car($car)){
+		if($this->validator_model->validate_car($car))
+		{
 			$r['message'] = $this->car_model->insert($car);
 		}else{
 			$r['message'] = 'You need to send all parameters to insert new car.';
@@ -39,16 +40,16 @@ class Api extends REST_Controller
 	}
 
 	public function car_put()
-  {
+  	{
 		$id = $this->uri->segment(3);
 
 		$data = array(
-  		'imei' => $this->input->get('imei'),
-  		'status' => $this->input->get('status')
+	  		'imei' => $this->input->get('imei'),
+	  		'status' => $this->input->get('status')
 		);
 
 		$r = $this->car_model->update($id,$data);
-    $this->response($r); 
+    	$this->response($r); 
 	}
 
 	public function car_delete()
