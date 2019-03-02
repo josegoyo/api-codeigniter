@@ -9,44 +9,50 @@ require(APPPATH . '/libraries/Format.php');
 class Api extends REST_Controller
 {
 
-  public function __construct() {
-    parent::__construct();
-    $this->load->model('user_model');
-  }   
+    public function __construct() 
+    {
+		parent::__construct();
+        $this->load->model('car_model');
+    }  
 
-  public function user_get(){
-     $r = $this->user_model->read();
-     $this->response($r); 
-  }
+	// CARS
+	public function car_get()
+	{
+		$r = $this->car_model->read();
+		$this->response($r); 
+  	}
 
-  public function user_put(){
-     $id = $this->uri->segment(3);
+	public function car_put()
+    {
+		$id = $this->uri->segment(3);
 
-     $data = array(
-        'username' => $this->input->get('username'),
-        'password' => $this->input->get('password'),
-        'user_type' => $this->input->get('user_type')
-     );
+		$data = array(
+	  		'imei' => $this->input->get('imei'),
+	  		'status' => $this->input->get('status')
+		);
 
-      $r = $this->user_model->update($id,$data);
-      $this->response($r); 
-  }
+		$r = $this->car_model->update($id,$data);
+        $this->response($r); 
+	}
 
-  public function user_post(){
-     $data = array(
-        'username' => $this->input->get('username'),
-        'password' => $this->input->get('password'),
-        'user_type' => $this->input->get('user_type')
-     );
-     $r = $this->user_model->insert($data);
-     $this->response($r); 
-  }
+  	public function car_post()
+  	{
+		$data = array(
+			'imei' => $this->input->get('imei'),
+			'status' => $this->input->get('status')
+		);
 
-  public function user_delete(){
-     $id = $this->uri->segment(3);
-     $r = $this->user_model->delete($id);
-     $this->response($r); 
-  }
+		$r = $this->car_model->insert($data);
+		$this->response($r); 
+  	}
+
+	public function car_delete()
+	{
+		$id = $this->uri->segment(3);
+		$r = $this->car_model->delete($id);
+		$this->response($r); 
+	}
+
 
 }
 ?>
