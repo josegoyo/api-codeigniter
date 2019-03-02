@@ -29,11 +29,11 @@ class Api extends REST_Controller
 
 		$r = array();
 
-		if($this->validator_model->validate_car($car))
+		if($this->validator_model->validate_new_car($car))
 		{
 			$r['message'] = $this->car_model->insert($car);
 		}else{
-			$r['message'] = 'You need to send all parameters to insert new car.';
+			$r['error'] = 'You need to send all parameters to insert new car.';
 		}
 
 		$this->response($r); 
@@ -42,13 +42,14 @@ class Api extends REST_Controller
 	public function car_put()
   	{
 		$id = $this->uri->segment(3);
+		// 'id2' => $this->uri->segment(4)
 
-		$data = array(
+		$car = $this->validator_model->validate_update_car(array(
 	  		'imei' => $this->input->get('imei'),
 	  		'status' => $this->input->get('status')
-		);
+		));
 
-		$r = $this->car_model->update($id,$data);
+		$r = $this->car_model->update($id,$car);
     	$this->response($r); 
 	}
 

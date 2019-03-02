@@ -11,11 +11,9 @@ class Car_model extends CI_Model
 
 	public function insert($data)
 	{
-		$this->imei = $data['imei'];
-		$this->status  = $data['status'];
-		$this->create_at = date('Y-m-d');
+		$data['create_at'] = date('Y-m-d');
 
-		if($this->db->insert('cars',$this)){    
+		if($this->db->insert('cars', $data)){    
 	  		return 'Data is inserted successfully';
 		}else{
 	  		return "Error has occured";
@@ -24,11 +22,7 @@ class Car_model extends CI_Model
 
 	public function update($id,$data)
 	{
-		$this->imei = $data['imei'];
-		$this->status  = $data['status'];
-		$this->create_at = date('Y-m-d');
-
-		$result = $this->db->update('cars', $this ,array('id_car' => $id));
+		$result = $this->db->update('cars', $data, array('id_car' => $id));
 
 		if($result) {
 	  		return "Data is updated successfully";
