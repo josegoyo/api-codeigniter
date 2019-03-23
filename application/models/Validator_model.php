@@ -3,11 +3,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Validator_model extends CI_Model
 {
+	public function __construct() 
+	{
+		parent::__construct();
+		$this->load->model('api/car_model');
+	}  
+
+	public function validate_read_car() 
+	{
+		return $this->car_model->read();
+	}
+
 	public function validate_new_car($car)
 	{
-		/*required car params:
-		- imei
-		- status*/
 		$valid = true;
 
 		if($this->validate_is_null($car['imei']))
@@ -15,18 +23,34 @@ class Validator_model extends CI_Model
 		if($this->validate_is_null($car['status']))
 			$valid = false;
 
-		return $valid;
+		$r = array();
+
+		if($valid) {
+			$r['message'] = $this->car_model->insert($car);
+		}else{
+			$r['error'] = 'You need to send all parameters to insert new car.';
+		}
+
+		return $r;
 	}
 
-	public function validate_update_car($car){
-		$res = array();
+	public function validate_update_car($car)
+	{
+		$update = array();
 
 		if(!$this->validate_is_null($car['imei']))
-			$res['imei'] = $car['imei'];
+			$update['imei'] = $car['imei'];
 		if(!$this->validate_is_null($car['status']))
-			$res['status'] = $car['status'];
+			$update['status'] = $car['status'];
 
-		return $res;
+		$r = $this->car_model->update($car['id'],$update);
+
+		return $r;
+	}
+
+	public function validate_delete_car($id)
+	{
+		return $this->car_model->delete($id);
 	}
 
 	public function validate_is_null($param)
