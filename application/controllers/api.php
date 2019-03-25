@@ -23,7 +23,8 @@ class Api extends REST_Controller
 	{
 		$car = array(
 			'imei' => $this->input->get('imei'),
-			'status' => $this->input->get('status')
+			'status' => $this->input->get('status'),
+			'create_at' => date('Y-m-d')
 		);
 		$this->response($this->validator_model->validate_new_car($car)); 
 	}
@@ -41,7 +42,7 @@ class Api extends REST_Controller
 	public function car_delete()
 	{
 		$id = $this->uri->segment(3);
-		$this->response($this->validator_model->validate_delete_car($car));
+		$this->response($this->validator_model->validate_delete_car($id));
 	}
 
 }
